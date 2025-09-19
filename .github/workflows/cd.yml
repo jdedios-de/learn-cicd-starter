@@ -33,5 +33,13 @@ jobs:
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
     
-      - name: 'build the Docker image'
+      - name: 'Build the Docker image'
         run: gcloud builds submit --tag europe-west10-docker.pkg.dev/thermal-history-472521-e8/notely-ar-repo/jdedios2026/notely:latest .
+
+      - name: 'Deploy to Cloud Run'
+        run: gcloud run deploy notely \
+              --image europe-west10-docker.pkg.dev/thermal-history-472521-e8/notely-ar-repo/jdedios2026/notely:latest \
+              --region europe-west10 \
+              --allow-unauthenticated \
+              --project thermal-history-472521-e8 \
+              --max-instances=4
