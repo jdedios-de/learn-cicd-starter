@@ -21,3 +21,17 @@ jobs:
         run: |
           chmod +x scripts/buildprod.sh
           ./scripts/buildprod.sh
+     
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+            credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v3'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+    
+      - name: 'build the Docker image'
+        run: gcloud builds submit --tag europe-west10-docker.pkg.dev/thermal-history-472521-e8/notely-ar-repo/jdedios2026/notely:latest .
